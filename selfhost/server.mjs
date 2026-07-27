@@ -167,7 +167,7 @@ async function handleStatic(request, response, staticRoot, pathname) {
       fileStat = await stat(filePath);
     }
   } catch {
-    if (path.extname(resolved.relative)) {
+    if (MIME_TYPES.has(path.extname(resolved.relative).toLowerCase())) {
       send(response, 404, "not found\n");
       return;
     }

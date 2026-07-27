@@ -75,6 +75,14 @@ test("serves browser-critical content types and HEAD requests", async t => {
   assert.equal(version.headers.get("cache-control"), "no-cache");
 });
 
+test("serves SPA fallback for dotted version routes", async t => {
+  const { request } = await createFixture(t);
+
+  const versionRoute = await request("/poe1/versions/v2.66.2");
+  assert.equal(versionRoute.status, 200);
+  assert.equal(await versionRoute.text(), "<h1>PoB</h1>");
+});
+
 test("proxies HTTPS requests using the upstream response envelope", async t => {
   let capturedRequest;
   const fetchImpl = async (url, init) => {
