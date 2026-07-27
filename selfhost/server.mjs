@@ -53,9 +53,7 @@ async function readBody(request) {
 
 function containsPoeSession(headers) {
   return Object.entries(headers).some(
-    ([name, value]) =>
-      name.toLowerCase().includes("poesessid") ||
-      String(value).toLowerCase().includes("poesessid"),
+    ([name, value]) => name.toLowerCase().includes("poesessid") || String(value).toLowerCase().includes("poesessid"),
   );
 }
 

@@ -38,12 +38,10 @@ export default defineConfig(({ mode }) => ({
     __VERSION_URL__: JSON.stringify(
       mode === "development" && process.env.POB_COOL_ASSET === undefined
         ? `/@fs/${rootDir}/version.json`
-        : "https://asset.pob.cool/version.json",
+        : "/version.json",
     ),
     __ASSET_PREFIX__: JSON.stringify(
-      mode === "development" && process.env.POB_COOL_ASSET === undefined
-        ? `/@fs/${packerR2Dir}`
-        : "https://asset.pob.cool",
+      mode === "development" && process.env.POB_COOL_ASSET === undefined ? `/@fs/${packerR2Dir}` : "",
     ),
   },
   worker: {
@@ -59,7 +57,11 @@ export default defineConfig(({ mode }) => ({
     reactRouter(),
     tailwindcss(),
     viteStaticCopy({
-      targets: [{ src: normalizePath(path.join(rootDir, "packages/driver/dist/*")), dest: "dist/" }],
+      targets: [
+        { src: normalizePath(path.join(rootDir, "packages/driver/dist/*")), dest: "dist/" },
+        { src: normalizePath(path.join(rootDir, "version.json")), dest: "." },
+        { src: normalizePath(path.join(packerR2Dir, "**/*")), dest: "." },
+      ],
     }),
   ],
 }));
