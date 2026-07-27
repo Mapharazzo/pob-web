@@ -9,3 +9,4 @@ build/
 r2/
 .wrangler
 .react-router/
+.worktrees/
