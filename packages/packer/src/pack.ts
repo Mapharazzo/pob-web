@@ -6,6 +6,7 @@ import { parseDDSDX10 } from "dds/src";
 import imageSize from "image-size";
 import { gameData, isGame } from "pob-game/src";
 import { default as shelljs } from "shelljs";
+import { patchLuaModParserCache } from "./patches.ts";
 
 await zstd.init();
 
@@ -82,7 +83,9 @@ for (const file of shelljs.find(basePath)) {
     // patching
     const newRelPath = relPath.replace(/Specific_Skill_Stat_Descriptions/g, "specific_skill_stat_descriptions");
     const newContent = (() => {
-      if (relPath.endsWith("StatDescriber.lua")) {
+      if (relPath.endsWith("Modules/ModParser.lua")) {
+        return Buffer.from(patchLuaModParserCache(content.toString()));
+      } else if (relPath.endsWith("StatDescriber.lua")) {
         return Buffer.from(
           content.toString().replace(/Specific_Skill_Stat_Descriptions/g, "specific_skill_stat_descriptions"),
         );
